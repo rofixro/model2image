@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
-export function model2image(modelUrl, options = {}) {
+export function model2image(modelUrl, options = { hasDRACOLoader: false }) {
     return new Promise((resolve, reject) => {
         try {
             let camera, scene, renderer;
@@ -46,16 +46,14 @@ export function model2image(modelUrl, options = {}) {
                     .setTranscoderPath('js/libs/basis/')
                     .detectSupport(renderer);
 
-                let loader = null;
+                const loader = new GLTFLoader();
                 if (options.hasDRACOLoader) {
-                    loader = new DRACOLoader();
-                    loader.setDecoderPath('/examples/jsm/libs/draco/');
-                    loader.preload();
-                } else {
-                    loader = new GLTFLoader();
-                    loader.setKTX2Loader(ktx2Loader);
-                    loader.setMeshoptDecoder(MeshoptDecoder);
+                    const dracoLoader = new DRACOLoader();
+                    dracoLoader.setDecoderPath('three/examples/jsm/libs/draco/');
+                    loader.setDRACOLoader(dracoLoader);
                 }
+                loader.setKTX2Loader(ktx2Loader);
+                loader.setMeshoptDecoder(MeshoptDecoder);
                 loader.load(modelUrl, function (gltf) {
                     const mesh = gltf.scene
                     const boundingBox = new THREE.Box3();
