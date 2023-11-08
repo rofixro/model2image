@@ -1,11 +1,12 @@
 import * as THREE from 'three';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
-export function model2image(modelUrl) {
+export function model2image(modelUrl, options = {}) {
     return new Promise((resolve, reject) => {
         try {
             let camera, scene, renderer;
@@ -45,9 +46,16 @@ export function model2image(modelUrl) {
                     .setTranscoderPath('js/libs/basis/')
                     .detectSupport(renderer);
 
-                const loader = new GLTFLoader()
-                loader.setKTX2Loader(ktx2Loader);
-                loader.setMeshoptDecoder(MeshoptDecoder);
+                let loader = null;
+                if (options.hasDRACOLoader) {
+                    loader = new DRACOLoader();
+                    loader.setDecoderPath('/examples/jsm/libs/draco/');
+                    loader.preload();
+                } else {
+                    loader = new GLTFLoader();
+                    loader.setKTX2Loader(ktx2Loader);
+                    loader.setMeshoptDecoder(MeshoptDecoder);
+                }
                 loader.load(modelUrl, function (gltf) {
                     const mesh = gltf.scene
                     const boundingBox = new THREE.Box3();
