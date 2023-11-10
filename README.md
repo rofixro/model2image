@@ -7,7 +7,7 @@ Use model2image to display thumbnails of 3D models on a web page without requiri
 ## Install
 
 ```bash
-npm install three model2image
+npm install model2image
 ```
 
 ## Usage
