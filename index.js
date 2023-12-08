@@ -57,7 +57,8 @@ export function model2image(modelUrl) {
         const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
 
-        dracoLoader.setDecoderPath("./draco/");
+        dracoLoader.setDecoderConfig({ type: "js" });
+        dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
         loader.setDRACOLoader(dracoLoader);
         loader.setKTX2Loader(ktx2Loader);
         loader.setMeshoptDecoder(MeshoptDecoder);
