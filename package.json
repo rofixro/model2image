@@ -1,6 +1,6 @@
 {
   "name": "model2image",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Use model2image to display thumbnails of 3D models on a web page without requiring plugins or external programs.",
   "main": "index.js",
   "repository": {
