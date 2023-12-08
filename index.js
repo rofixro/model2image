@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
-export function model2image(modelUrl, options = { hasDRACOLoader: false }) {
+export function model2image(modelUrl) {
   return new Promise((resolve, reject) => {
     try {
       let camera, scene, renderer;
@@ -55,11 +55,10 @@ export function model2image(modelUrl, options = { hasDRACOLoader: false }) {
           .detectSupport(renderer);
 
         const loader = new GLTFLoader();
-        if (options.hasDRACOLoader) {
-          const dracoLoader = new DRACOLoader();
-          dracoLoader.setDecoderPath("three/examples/jsm/libs/draco/");
-          loader.setDRACOLoader(dracoLoader);
-        }
+        const dracoLoader = new DRACOLoader();
+
+        dracoLoader.setDecoderPath("three/examples/jsm/libs/draco/");
+        loader.setDRACOLoader(dracoLoader);
         loader.setKTX2Loader(ktx2Loader);
         loader.setMeshoptDecoder(MeshoptDecoder);
         loader.load(
