@@ -57,7 +57,7 @@ export function model2image(modelUrl) {
         const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
 
-        dracoLoader.setDecoderPath("three/examples/jsm/libs/draco/");
+        dracoLoader.setDecoderPath("./draco/");
         loader.setDRACOLoader(dracoLoader);
         loader.setKTX2Loader(ktx2Loader);
         loader.setMeshoptDecoder(MeshoptDecoder);
