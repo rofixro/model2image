@@ -23,7 +23,7 @@ async function modelToImage() {
 
 ## Maintainers
 
-[@Takuya](https://github.com/niyaco)
+[@Niyaco](https://github.com/niyaco)
 
 ## License
 
