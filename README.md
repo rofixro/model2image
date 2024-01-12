@@ -21,10 +21,6 @@ async function modelToImage() {
 }
 ```
 
-## Maintainers
-
-[@Niyaco](https://github.com/niyaco)
-
 ## License
 
-[MIT](https://github.com/niyaco/model2image/blob/main/LICENSE)
+[MIT](LICENSE)
