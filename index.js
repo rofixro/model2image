@@ -10,26 +10,26 @@ export function model2image(modelUrl) {
   return new Promise((resolve, reject) => {
     try {
       let camera, scene, renderer;
+      const { innerWidth, innerHeight, devicePixelRatio } = window;
       init();
       render();
 
       function init() {
         const container = document.createElement("div");
         document.body.appendChild(container);
-
         renderer = new THREE.WebGLRenderer({
-          antialias: true,
           preserveDrawingBuffer: true,
+          antialias: devicePixelRatio < 2,
+          failIfMajorPerformanceCaveat: true,
         });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(devicePixelRatio);
+        renderer.setSize(innerWidth, innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1;
         container.appendChild(renderer.domElement);
 
         camera = new THREE.PerspectiveCamera(
           45,
-          window.innerWidth / window.innerHeight,
+          innerWidth / innerHeight,
           1,
           20000
         );
@@ -54,11 +54,13 @@ export function model2image(modelUrl) {
           .setTranscoderPath("js/libs/basis/")
           .detectSupport(renderer);
 
-        const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
-
         dracoLoader.setDecoderConfig({ type: "js" });
-        dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
+        dracoLoader.setDecoderPath(
+          "https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
+        );
+
+        const loader = new GLTFLoader();
         loader.setDRACOLoader(dracoLoader);
         loader.setKTX2Loader(ktx2Loader);
         loader.setMeshoptDecoder(MeshoptDecoder);
@@ -141,10 +143,10 @@ export function model2image(modelUrl) {
         return parent;
       }
       function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = innerWidth / innerHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(innerWidth, innerHeight);
 
         render();
       }
